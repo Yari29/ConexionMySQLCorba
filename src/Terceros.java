@@ -1,5 +1,6 @@
 import java.sql.*;
 import Terceros.*;
+import javax.swing.JOptionPane;
 
 public class Terceros extends TerceroPOA{
     Conexion objConexion = new Conexion();
@@ -34,6 +35,9 @@ public class Terceros extends TerceroPOA{
                         +rs.getString(3)+ "-"
                         +rs.getString(4);
             }
+            rs.close();
+            //cerrar las conexiones
+            objConexion.conex.close();
         } catch (Exception e) {
         }
         return resultado;
@@ -43,4 +47,22 @@ public class Terceros extends TerceroPOA{
     public void shoutdown() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+    
+    public ResultSet cargarTercero(){
+        ResultSet resultado = null;
+        
+        try {
+            String sql = "Select nombres,apellidos,telefono from terceros"
+                    + "";
+            objConexion.conectar(); //abrir la conexión
+            Statement st = objConexion.conex.createStatement();
+            resultado = st.executeQuery(sql);
+            
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null,"Error:"+e.getMessage());
+        }
+        
+        return resultado;
+    }
+    
 }
