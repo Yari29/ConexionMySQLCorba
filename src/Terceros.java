@@ -7,17 +7,67 @@ public class Terceros extends TerceroPOA{
 
     @Override
     public boolean insertarTercero(String nombre, String apellido, String telefono) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        boolean resultado = false;
+        try {
+            String sqlInsertar="insert into terceros (nombres,apellidos,telefono)"
+                    + "values ('"+nombre+"','"+apellido+"','"+telefono+"')";
+            
+            objConexion.conectar(); //abrir la conexión
+            Statement st = objConexion.conex.createStatement();//Ejecución de statement
+            int valor = st.executeUpdate(sqlInsertar);//Indica si insertó o no 
+            
+            if (valor>0) {
+                resultado=true;
+            } //se cierran las conexiones
+            objConexion.conex.close();
+            st.close();
+           
+            
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null,"Error al insertar."+ e.getMessage());
+        }
+        return resultado;
+        
     }
 
     @Override
     public boolean actualizarTercero(int id, String nombre, String apellido, String telefono) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        boolean resultado = false;
+        try {
+            String sqlActualizar = "update terceros set nombres ='"+nombre+"',apellidos='"+apellido+"',telefono='"+telefono+"' where id = '"+id+"' ";
+            Statement st = objConexion.conex.createStatement();//Ejecución de statement
+            int valor = st.executeUpdate(sqlActualizar);//Indica si insertó o no 
+            
+            if (valor>0) {
+                resultado=true;
+            } //se cierran las conexiones
+            objConexion.conex.close();
+            st.close();
+            
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null,"Error al insertar."+ e.getMessage());
+        }
+        return resultado;
     }
 
     @Override
     public boolean eliminarTercero(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        boolean resultado = false;
+        try {
+            String sqlEliminar = "Delete from terceros where id = "+id;
+            
+            Statement st = objConexion.conex.createStatement();//Ejecución de statement
+            int valor = st.executeUpdate(sqlEliminar);//Indica si insertó o no 
+            
+            if (valor>0) {
+                resultado=true;
+            } //se cierran las conexiones
+            objConexion.conex.close();
+            st.close();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null,"Error al insertar."+ e.getMessage());
+        }
+        return resultado;
     }
 
     @Override
@@ -52,8 +102,7 @@ public class Terceros extends TerceroPOA{
         ResultSet resultado = null;
         
         try {
-            String sql = "Select nombres,apellidos,telefono from terceros"
-                    + "";
+            String sql = "Select nombres,apellidos,telefono from terceros";
             objConexion.conectar(); //abrir la conexión
             Statement st = objConexion.conex.createStatement();
             resultado = st.executeQuery(sql);
